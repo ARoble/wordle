@@ -141,7 +141,7 @@ export default function Home() {
         <Header />
         {won && <Confetti width={2000} height={1000} />}
         <main className="relative flex flex-col items-center justify-center p-14">
-          {word}
+          {/* {word} */}
           <LettersSelector />
           <Grid />
           {(won || modal.giveUp) && (
