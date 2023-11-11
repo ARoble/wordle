@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GameContext } from "../Context";
 
 export default function LettersSelector() {
-  const { letters, setLetters, setModal, handleOnChangeLetters, setIsPlaying } =
+  const { letters, modal, setModal, handleOnChangeLetters, setIsPlaying } =
     useContext(GameContext);
 
   return (
@@ -19,9 +19,11 @@ export default function LettersSelector() {
         />
       </div>
       <button
-        className="bg-gray-500 px-2 py-2 text-xs rounded hover:cursor-pointer"
+        className={`${
+          modal.type == "won" && "hidden"
+        } bg-gray-500 px-2 py-2 text-xs rounded hover:cursor-pointer`}
         onClick={() => {
-          setModal({ status: true, type: "lost" });
+          setModal({ status: true, type: "lost", giveUp: true });
           setIsPlaying(false);
         }}
       >

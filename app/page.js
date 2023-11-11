@@ -14,6 +14,8 @@ import initBoard from "./data/board.json";
 import LettersSelector from "./Components/lettersSelector";
 import { GameContext } from "./Context";
 import Keyboard from "./Components/Keyboard/keyboard";
+import { AiOutlineLink } from "react-icons/ai";
+import Link from "next/link";
 
 export default function Home() {
   const [word, setWord] = useState("GOODP");
@@ -25,9 +27,10 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [won, setWon] = useState(false);
   const [modal, setModal] = useState({ status: false, type: "" });
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     initGame();
+    setLoading(false);
   }, [letters]);
 
   const initGame = () => {
@@ -68,11 +71,12 @@ export default function Home() {
     //Note: we dont need red just yellow and green
 
     guesses[row].map((letter, index) => {
+      guessesCopy[row][index].color = "bg-gray-500";
       if (splitWord.includes(letter.letter)) {
-        guessesCopy[row][index].color = "bg-yellow-400";
+        guessesCopy[row][index].color = "bg-yellow-500";
       }
       if (splitWord[index] == guesses[row][index].letter) {
-        guessesCopy[row][index].color = "bg-green-400";
+        guessesCopy[row][index].color = "bg-green-500";
       }
     });
     setGuesses([...guessesCopy]);
@@ -113,6 +117,8 @@ export default function Home() {
   const newGame = () => {
     initGame();
   };
+
+  if (loading) return;
   return (
     <div>
       <GameContext.Provider
@@ -127,19 +133,20 @@ export default function Home() {
           row,
           word,
           newGame,
+          modal,
           setModal,
           setIsPlaying,
         }}
       >
         <Header />
         {won && <Confetti width={2000} height={1000} />}
-        <main className="relative flex flex-col items-center justify-center p-24">
+        <main className="relative flex flex-col items-center justify-center p-14">
           {word}
           <LettersSelector />
           <Grid />
-          {won && (
+          {(won || modal.giveUp) && (
             <button
-              className="bg-blue-400 w-1/2 py-5 mt-10"
+              className="bg-blue-400 w-64 py-5 mt-10"
               onClick={() => newGame()}
             >
               Play again!
@@ -147,6 +154,14 @@ export default function Home() {
           )}
           {isPlaying && <Keyboard keys={keys} />}
           {modal.status && <Modal modal={modal} setModal={setModal} />}
+          <Link
+            href="https://github.com/ARoble/wordle"
+            target="_blank"
+            className="absolute bottom-0 flex items-center space-x-1 text-gray-700 hover:cursor-pointer hover:text-gray-300"
+          >
+            <h1 className=" text-sm">Github</h1>
+            <AiOutlineLink className=" mt-0.5" />
+          </Link>
         </main>
       </GameContext.Provider>
     </div>

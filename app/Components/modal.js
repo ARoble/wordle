@@ -10,7 +10,7 @@ export default function Modal({ onClick, modal, newGame, setModal }) {
           <div className="flex justify-end px-5 py-4">
             <MdClose
               size={23}
-              onClick={() => setModal({ status: false, type: "" })}
+              onClick={() => setModal({ ...modal, status: false })}
               className="hover:cursor-pointer"
             />
           </div>

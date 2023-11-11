@@ -6,7 +6,7 @@ export default function Correct({ won }) {
   return (
     <div className="p-5">
       <h1 className="text-2xl text-center font-bold">
-        {won ? "Correct!" : "The word was"}
+        {won ? "Correct!" : "The word was..."}
       </h1>
 
       <div className="py-2">
